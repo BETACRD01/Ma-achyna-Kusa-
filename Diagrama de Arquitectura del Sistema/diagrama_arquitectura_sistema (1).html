@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagrama de Arquitectura - Mañachyna Kusa</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            max-width: 900px;
+            width: 100%;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #4a90e2;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            margin: 10px 0 0 0;
+            font-size: 16px;
+        }
+        
+        .architecture-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .layer {
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .layer:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .presentation-layer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #5a67d8;
+        }
+        
+        .domain-layer {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-color: #e53e3e;
+        }
+        
+        .data-layer {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border-color: #3182ce;
+        }
+        
+        .external-layer {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+            border-color: #38a169;
+        }
+        
+        .layer-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .layer-icon {
+            font-size: 28px;
+        }
+        
+        .layer-description {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .components {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .component {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .component-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .component-items {
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        
+        .arrow {
+            text-align: center;
+            font-size: 30px;
+            color: #4a90e2;
+            margin: -10px 0;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .flow-indicators {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(74, 144, 226, 0.1);
+            border-radius: 10px;
+            border: 2px dashed #4a90e2;
+        }
+        
+        .flow-item {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .flow-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+            color: #4a90e2;
+        }
+        
+        .flow-text {
+            font-size: 12px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .principles {
+            margin-top: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #4a90e2;
+        }
+        
+        .principles h3 {
+            color: #2c3e50;
+            margin: 0 0 15px 0;
+            font-size: 18px;
+        }
+        
+        .principle-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .principle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .principle-icon {
+            color: #4a90e2;
+            font-size: 18px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏗️ Arquitectura del Sistema</h1>
+            <p>Clean Architecture - Mañachyna Kusa</p>
+        </div>
+        
+        <div class="architecture-diagram">
+            <!-- Capa de Presentación -->
+            <div class="layer presentation-layer">
+                <div class="layer-title">
+                    <span class="layer-icon">📱</span>
+                    Capa de Presentación (UI Layer)
+                </div>
+                <div class="layer-description">
+                    Interfaz de usuario construida con Flutter. Maneja la interacción del usuario y la visualización de datos.
+                </div>
+                <div class="components">
+                    <div class="component">
+                        <div class="component-title">📺 Screens</div>
+                        <div class="component-items">
+                            • Login/Register<br>
+                            • Home Dashboard<br>
+                            • Service Booking<br>
+                            • Profile Management<br>
+                            • Chat Interface
+                        </div>
+                    </div>
+                    <div class="component">
+                        <div class="component-title">🎨 Widgets</div>
+                        <div class="component-items">
+                            • Custom Buttons<br>
+                            • Service Cards<br>
+                            • Navigation Components<br>
+                            • Form Elements<br>
+                            • Loading Indicators
+                        </div>
+                    </div>
+                    <div class="component">
+                        <div class="component-title">🔄 Providers</div>
+                        <div class="component-items">
+                            • Auth Provider<br>
+                            • Booking Provider<br>
+                            • Chat Provider<br>
+                            • Location Provider<br>
+                            • Theme Provider
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arrow">⬇️</div>
+            
+            <!-- Capa de Dominio -->
+            <div class="layer domain-layer">
+                <div class="layer-title">
+                    <span class="layer-icon">⚙️</span>
+                    Capa de Dominio (Business Logic)
+                </div>
+                <div class="layer-description">
+                    Contiene la lógica de negocio central, entidades y casos de uso. Independiente de frameworks externos.
+                </div>
+                <div class="components">
+                    <div class="component">
+                        <div class="component-title">📋 Entities</div>
+                        <div class="component-items">
+                            • User Entity<br>
+                            • Service Entity<br>
+                            • Booking Entity<br>
+                            • Provider Entity<br>
+                            • Chat Message Entity
+                        </div>
+                    </div>
+                    <div class="component">
+                        <div class="component-title">🎯 Use Cases</div>
+                        <div class="component-items">
+                            • User Authentication<br>
+                            • Service Booking<br>
+                            • Provider Matching<br>
+                            • Payment Processing<br>
+                            • Real-time Chat
+                        </div>
+                    </div>
+                    <div class="component">
+                        <div class="component-title">📐 Validators</div>
+                        <div class="component-items">
+                            • Input Validation<br>
+                            • Business Rules<br>
+                            • Data Integrity<br>
+                            • Security Checks
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arrow">⬇️</div>
+            
+            <!-- Capa de Datos -->
+            <div class="layer data-layer">
+                <div class="layer-title">
+                    <span class="layer-icon">💾</span>
+                    Capa de Datos (Data Layer)
+                </div>
+                <div class="layer-description">
+                    Gestiona el acceso a datos, implementa repositorios y maneja la comunicación con fuentes de datos externas.
+                </div>
+                <div class="components">
+                    <div class="component">
+                        <div class="component-title">📊 Models</div>
+                        <div class="component-items">
+                            • User Model<br>
+                            • Service Model<br>
+                            • Booking Model<br>
+                            • Chat Model<br>
+                            • Notification Model
+                        </div>
+                    </div>
+                    <div class="component">
+                        <div class="component-title">🗂️ Repositories</div>
+                        <div class="component-items">
+                            • User Repository<br>
+                            • Booking Repository<br>
+                            • Service Repository<br>
+                            • Chat Repository
+                        </div>
+                    </div>
+                    <div class="component">
+                        <div class="component-title">🔧 Services</div>
+                        <div class="component-items">
+                            • Auth Service<br>
+                            • Firestore Service<br>
+                            • Location Service<br>
+                            • Notification Service<br>
+                            • Payment Service
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arrow">⬇️</div>
+            
+            <!-- Capa Externa -->
+            <div class="layer external-layer">
+                <div class="layer-title">
+                    <span class="layer-icon">🌐</span>
+                    Capa Externa (External Layer)
+                </div>
+                <div class="layer-description">
+                    Servicios externos, APIs y frameworks. Incluye Firebase, Google Maps y otros servicios de terceros.
+                </div>
+                <div class="components">
+                    <div class="component">
+                        <div class="component-title">🔥 Firebase</div>
+                        <div class="component-items">
+                            • Authentication<br>
+                            • Cloud Firestore<br>
+                            • Cloud Storage<br>
+                            • Cloud Functions<br>
+                            • Analytics
+                        </div>
+                    </div>
+                    <div class="component">
+                        <div class="component-title">🗺️ Google Services</div>
+                        <div class="component-items">
+                            • Maps API<br>
+                            • Geolocation API<br>
+                            • Places API<br>
+                            • Directions API
+                        </div>
+                    </div>
+                    <div class="component">
+                        <div class="component-title">📡 External APIs</div>
+                        <div class="component-items">
+                            • Payment Gateway<br>
+                            • SMS Service<br>
+                            • Push Notifications<br>
+                            • Analytics Tools
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="flow-indicators">
+            <div class="flow-item">
+                <div class="flow-icon">👆</div>
+                <div class="flow-text">USER INPUT</div>
+            </div>
+            <div class="flow-item">
+                <div class="flow-icon">⚡</div>
+                <div class="flow-text">BUSINESS LOGIC</div>
+            </div>
+            <div class="flow-item">
+                <div class="flow-icon">💾</div>
+                <div class="flow-text">DATA PROCESSING</div>
+            </div>
+            <div class="flow-item">
+                <div class="flow-icon">🌐</div>
+                <div class="flow-text">EXTERNAL SERVICES</div>
+            </div>
+        </div>
+        
+        <div class="principles">
+            <h3>🎯 Principios de Clean Architecture Implementados</h3>
+            <div class="principle-list">
+                <div class="principle">
+                    <span class="principle-icon">🔄</span>
+                    <span>Inversión de Dependencias</span>
+                </div>
+                <div class="principle">
+                    <span class="principle-icon">🧩</span>
+                    <span>Separación de Responsabilidades</span>
+                </div>
+                <div class="principle">
+                    <span class="principle-icon">🔒</span>
+                    <span>Independencia de Frameworks</span>
+                </div>
+                <div class="principle">
+                    <span class="principle-icon">🧪</span>
+                    <span>Facilita Testing</span>
+                </div>
+                <div class="principle">
+                    <span class="principle-icon">📈</span>
+                    <span>Escalabilidad y Mantenibilidad</span>
+                </div>
+                <div class="principle">
+                    <span class="principle-icon">🎨</span>
+                    <span>UI Independiente</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Arquitectura:</strong> Clean Architecture Pattern</p>
+            <p><strong>Framework:</strong> Flutter 3.x con Provider State Management</p>
+            <p><strong>Proyecto:</strong> Mañachyna Kusa - Instituto Superior Tecnológico Tena</p>
+        </div>
+    </div>
+</body>
+</html>
